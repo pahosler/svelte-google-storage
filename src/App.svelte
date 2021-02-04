@@ -87,7 +87,7 @@
     <input type="submit" value="Create Bucket!">
   </form>
   <!-- <form on:submit|preventDefault={(e)=>handleSubmit(e)} enctype="multipart/form-data"> -->
-  <form action={`/api/upload/${files[0] ? files[0] :''}`} method="post" enctype="multipart/form-data">
+  <form action={`/api/upload/${files}`} method="post" enctype="multipart/form-data">
     <input type="file" name="file" accept="image/*" capture bind:files>
     {#if files && files[0]}
     <input type="submit" value="Upload Image" name="submit">

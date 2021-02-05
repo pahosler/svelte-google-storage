@@ -21,25 +21,36 @@
   }
 
   const handleSubmit = async (e) => {
-    const file = e.target.firstChild.files[0];
-    const filename = encodeURIComponent(file.name)
-    console.log(file.name);
-    const formData = new FormData();
 
-    Object.entries({ filename, ...file }).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+    const file = files[0]
+    const uuid = '12345'
+    const filename = encodeURIComponent(`${uuid}/${file.name}`)
+    const res = await fetch(`/api/upload/${filename}`)
+    const { url, fields } = await res.json()
+    const formData = new FormData()
 
-    console.log("the file", formData)
-    const res = await fetch(`/api/upload/file`, { method: 'POST', body: file });
-    const data = await res;
-    console.log("data: ", data)
-  }
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      formData.append(key, value)
+    })
+
+    const upload = await fetch(url, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors'
+    })
+    console.log(`${url}${filename}`, upload)
+    if (upload.ok) {
+      console.log('upload success')
+    } else {
+      console.error('upload failed')
+    }
+  };
+
 
   onMount(async () => {
     const res = await fetch("/api/date");
     const data = await res.json();
-    const thing = await fetch("/api/name/Fred")
+    const thing = await fetch("/api/name", { method: 'POST', body: "Fred" })
     const thingd = await thing.json()
     console.log(thingd)
     date = data.date;
@@ -82,12 +93,12 @@
   <h2>The date according to Node.js is:</h2>
   <p>{date ? date : 'Loading date...'}</p>
   <p>{bucket_name ? bucket_name : 'nope'}</p>
-  <input type="button" on:click={login} value="LOGIN">
+  <input type="button" on:click={login} value="LOGIN" disabled>
   <form action="/api/createBucket">
-    <input type="submit" value="Create Bucket!">
+    <input type="submit" value="Create Bucket!" disabled>
   </form>
-  <!-- <form on:submit|preventDefault={(e)=>handleSubmit(e)} enctype="multipart/form-data"> -->
-  <form action={`/api/upload/${files}`} method="post" enctype="multipart/form-data">
+  <form on:submit|preventDefault={()=>handleSubmit()} enctype="multipart/form-data">
+    <!-- <form action="/api/upload" method="post" enctype="multipart/form-data"> -->
     <input type="file" name="file" accept="image/*" capture bind:files>
     {#if files && files[0]}
     <input type="submit" value="Upload Image" name="submit">

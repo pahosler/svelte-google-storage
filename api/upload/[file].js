@@ -3,6 +3,7 @@ import { project_id, client_email, private_key } from '../storage';
 
 module.exports = async (req, res) => {
   // Instantiate storage client
+  console.log(project_id, client_email);
   const GCS = new Storage({
     projectId: project_id,
     credentials: {

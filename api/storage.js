@@ -1,15 +1,12 @@
-import multer, { memoryStorage } from 'multer';
-import storage from '@google-cloud/storage';
 import crypto from 'crypto';
 import { encrypted } from './service-account.enc';
-const GOOGLE_ENCRYPTION_SECRET = '^Jx.>+9;>jUFR},q';
-const GOOGLE_ENCRYPTION_IV = 'L,cg6\\}A+fSU&2L';
+
 // decrypt keyfile
 const algorithm = 'aes-128-cbc';
 const decipher = crypto.createDecipheriv(
   algorithm,
-  GOOGLE_ENCRYPTION_SECRET,
-  GOOGLE_ENCRYPTION_IV
+  process.env.GOOGLE_ENCRYPTION_SECRET,
+  process.env.GOOGLE_ENCRYPTION_IV
 );
 
 const getDecryptedSecret = () => {

@@ -1,6 +1,12 @@
 {
+  "env": {
+    "GOOGLE_ENCRYPTION_IV": "@google-encryption-iv",
+    "GOOGLE_ENCRYPTION_SECRET": "@google-encryption-secret"
+  },
+  "build": {
     "env": {
-        "GOOGLE_ENCRYPTION_IV": "@google-encryption-iv",
-        "GOOGLE_ENCRYPTION_SECRET": "@google-encryption-secret"
+      "GOOGLE_ENCRYPTION_IV": "@google-encryption-iv",
+      "GOOGLE_ENCRYPTION_SECRET": "@google-encryption-secret"
     }
+  }
 }

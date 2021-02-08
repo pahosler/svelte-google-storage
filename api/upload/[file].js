@@ -23,6 +23,6 @@ module.exports = async (req, res) => {
   };
 
   const [response] = await uploadFile.generateSignedPostPolicyV4(options);
-  console.log(response);
+  console.log('response:', response);
   res.status(200).json(response);
 };
